@@ -1,0 +1,192 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(to bottom, #f0f0f0, #ccc);
+    /* Set a gradient from light gray to a slightly darker gray */
+}
+
+header {
+    background-color: #1e90ff;
+    color: white;
+    text-align: center;
+    padding: 20px;
+}
+
+.header {
+    position: relative;
+    text-align: center;
+    background: linear-gradient(60deg, rgba(84, 58, 183, 1) 0%, rgba(0, 172, 193, 1) 100%);
+    color: white;
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+h1 {
+    margin-top: 50px;
+}
+
+#screeplot {
+    margin: 50px auto;
+    width: 110%;
+    height: 600px;
+    background-color: #ffffff;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+}
+
+#biplot {
+    margin: 50px auto;
+    width: 110%;
+    height: 600px;
+    background-color: #ffffff;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+}
+
+#screeloadingstable {
+    border-collapse: collapse;
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  
+#screeloadingstable th, #screeloadingtable td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  
+#screeloadingstable th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+  }
+
+  #kmeanschart {
+    margin: 50px auto;
+    width: 110%;
+    height: 600px;
+    background-color: #ffffff;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+}
+
+#linechart{
+    margin: 50px auto;
+    width: 110%;
+    height: 600px;
+    background-color: #ffffff;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+}
+
+.bar:hover .label {
+    display: block;
+}
+
+.dot {
+    fill: blue;
+}
+
+.dot:hover {
+    fill: red;
+}
+
+.axis line,
+.axis path {
+    fill: none;
+    stroke: #aaa;
+    shape-rendering: crispEdges;
+}
+
+.axis text {
+    font-size: 10px;
+    font-family: sans-serif;
+    fill: #333;
+}
+
+.label {
+    display: none;
+    font-size: 12px;
+    font-family: sans-serif;
+    font-weight: bold;
+    text-align: center;
+    fill: #fff;
+    background-color: #333;
+    padding: 5px;
+    border-radius: 5px;
+    pointer-events: none;
+}
+
+.arrow {
+    fill: #999;
+}
+
+.arrow:hover {
+    fill: #333;
+}
+
+.arrow-label {
+    font-size: 12px;
+    font-family: sans-serif;
+    font-weight: bold;
+    text-align: center;
+    fill: #333;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 0 auto;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    margin-top: 50px;
+    text-align: center;
+}
+
+th,
+td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+tbody tr:nth-child(even):nth-child(n+5) {
+    background-color: #f2f2f2;
+}
+
+tbody tr:hover {
+    background-color: #ddd;
+}
+
+thead {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+#loadings {
+    display: flex;
+    justify-content: center;
+}
+
+.highlight {
+    background-color: yellow;
+}
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.scatter-plot {
+    flex: 1 0 21%;
+    margin: 5px;
+}

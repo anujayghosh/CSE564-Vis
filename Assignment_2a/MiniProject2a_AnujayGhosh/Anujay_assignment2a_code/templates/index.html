@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>LAB #2A- ANUJAY GHOSH</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body style="align-items: center;">
+    <header class="header">
+        <h1>CSE564 VISUALIZATION - LAB #2A- ANUJAY GHOSH</h1>
+    </header>
+    <script src="{{ url_for('static', filename='js/biplot2.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/loadingsTable.js') }}"></script>
+    <main class="main">
+        <section class="section">
+            <div class="center">
+                <h2 class="section-heading">Scree Plot - Principal Component Analysis</h2>
+            </div>
+            <div class="center">
+                <div id="screeplot"></div>
+                <div id="screeloadingstable"></div>
+            </div>
+        </section>
+        <section class="section">
+            <div class="center">
+                <h2 class="section-heading">Biplot - PC1 and PC2</h2>
+            </div>
+            <div class="center">
+                <div id="biplot"></div>
+            </div>
+            <script>
+                fetch('/compute_eigenvectors')
+                    .then(response => response.json())
+                    .then(data => {
+                        const score = data['score'];
+                        const coef = data['coef'];
+                        const labels = data['labels'];
+                        createBiplot(score, coef, labels);
+                    })
+                    .catch(error => console.error(error));
+            </script>
+        </section>
+
+
+        <section class="section">
+            <div class="center">
+                <h2 class="section-heading">Loadings and Sum of Square Loadings</h2>
+            </div>
+            <div class="center">
+                <div id="loadings">
+                    <script>
+                        fetch('/compute_eigenvectors')
+                            .then(response => response.json())
+                            .then(data => {
+                                const loadings = data['loadings'];
+                                createLoadingsTable(loadings);
+                            })
+                            .catch(error => console.error(error));
+                    </script>
+                </div>
+            </div>
+            <div style="padding-bottom: 50px;"></div>
+        </section>
+        <section class="section">
+            <div class="center">
+                <h2 class="section-heading">K-means Clustering</h2>
+            </div>
+            <div class="center">
+                <div id="kmeanschart"></div>
+            </div>
+        </section>
+
+        <script>
+            // Fetch the data from Flask and create the chart
+            fetch('/kmeans')
+                .then(response => response.json())
+                .then(data => {
+                    createKMeansChart(data);
+                })
+                .catch(error => console.error(error));
+        </script>
+        <script src="{{ url_for('static', filename='js/kmeans.js') }}"></script>
+
+        <section class="section">
+            <div class="center">
+                <h2 class="section-heading">Sum of Squared Loadings Line Chart</h2>
+            </div>
+            <div class="center">
+                <div id="linechart"></div>
+                <script src="{{ url_for('static', filename='js/linechart.js') }}"></script>
+            </div>
+        </section>
+        <section class="section">
+            <div class="center">
+                <h2 class="section-heading">Scatter Plot Matrix </h2>
+            </div>
+            <div class="center">
+                <div id="scattermatrixchart"></div>
+                <script src="{{ url_for('static', filename='js/scattermatrix.js') }}"></script>
+            </div>
+        </section>
+
+
+    </main>
+    <script src="{{ url_for('static', filename='js/screeplot.js') }}"></script>
+    <script>
+        const screeData = JSON.parse('{{ scree_data|tojson }}');
+        createScreePlot(screeData);
+    </script>
+</body>
+
+</html>

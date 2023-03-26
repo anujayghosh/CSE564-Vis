@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>LAB #2A- ANUJAY GHOSH</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body style="align-items: center;">
+    <header class="header">
+        <h1>CSE564 VISUALIZATION - LAB #2A- ANUJAY GHOSH</h1>
+    </header>
+    <main class="main">
+        <section class="section">
+            <div class="center">
+                <h2 class="section-heading">Scatter Plot Matrix </h2>
+            </div>
+            <div class="scatter-plots">
+                <div class="row">
+                    <div class="col-md-3 scatter-plot" id="scatterplot1"></div>
+                    <div class="col-md-3 scatter-plot" id="scatterplot2"></div>
+                    <div class="col-md-3 scatter-plot" id="scatterplot3"></div>
+                    <div class="col-md-3 scatter-plot" id="scatterplot4"></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 scatter-plot" id="scatterplot5"></div>
+                    <div class="col-md-3 scatter-plot" id="scatterplot6"></div>
+                    <div class="col-md-3 scatter-plot" id="scatterplot7"></div>
+                    <div class="col-md-3 scatter-plot" id="scatterplot8"></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 scatter-plot" id="scatterplot9"></div>
+                    <div class="col-md-3 scatter-plot" id="scatterplot10"></div>
+                    <div class="col-md-3 scatter-plot" id="scatterplot11"></div>
+                    <div class="col-md-3 scatter-plot" id="scatterplot12"></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 scatter-plot" id="scatterplot13"></div>
+                    <div class="col-md-3 scatter-plot" id="scatterplot14"></div>
+                    <div class="col-md-3 scatter-plot" id="scatterplot15"></div>
+                    <div class="col-md-3 scatter-plot" id="scatterplot16"></div>
+                </div>
+            </div>
+                <script src="{{ url_for('static', filename='js/scatterplot.js') }}"></script>
+                <script>
+                    // Fetch the data from Flask and create the charts
+                    fetch('/get_scatter_data')
+                        .then(response => response.json())
+                        .then(data => {
+                            drawScatterPlot(data, "no_atms_off_site", "no_atms_off_site", "scatterplot1");
+                            drawScatterPlot(data, "no_atms_off_site", "no_pos_on_line", "scatterplot2");
+                            drawScatterPlot(data, "no_atms_off_site", "no_pos_off_line", "scatterplot3");
+                            drawScatterPlot(data, "no_atms_off_site", "no_credit_cards", "scatterplot4");
+                            drawScatterPlot(data, "no_pos_on_line", "no_atms_off_site", "scatterplot5");
+                            drawScatterPlot(data, "no_pos_on_line", "no_pos_on_line", "scatterplot6");
+                            drawScatterPlot(data, "no_pos_on_line", "no_pos_off_line", "scatterplot7");
+                            drawScatterPlot(data, "no_pos_on_line", "no_credit_cards", "scatterplot8");
+                            drawScatterPlot(data, "no_pos_off_line", "no_atms_off_site", "scatterplot9");
+                            drawScatterPlot(data, "no_pos_off_line", "no_pos_on_line", "scatterplot10");
+                            drawScatterPlot(data, "no_pos_off_line", "no_pos_off_line", "scatterplot11");
+                            drawScatterPlot(data, "no_pos_off_line", "no_credit_cards", "scatterplot12");
+                            drawScatterPlot(data, "no_credit_cards", "no_atms_off_site", "scatterplot13");
+                            drawScatterPlot(data, "no_credit_cards", "no_pos_on_line", "scatterplot14");
+                            drawScatterPlot(data, "no_credit_cards", "no_pos_off_line", "scatterplot15");
+                            drawScatterPlot(data, "no_credit_cards", "no_credit_cards", "scatterplot16");
+                        
+                        });
+                </script>
+
+            </div>
+        </section>
+
+
+    </main>
+</body>
+
+</html>

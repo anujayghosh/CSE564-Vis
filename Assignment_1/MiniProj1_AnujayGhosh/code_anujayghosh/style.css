@@ -1,0 +1,232 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(to bottom, #f0f0f0, #ccc); /* Set a gradient from light gray to a slightly darker gray */
+  }
+  header {
+    background-color: #1e90ff;
+    color: white;
+    text-align: center;
+    padding: 20px;
+  }
+  /* Style the dropdown button */
+.dropbtn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  /* Style the dropdown content (hidden by default) */
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    z-index: 1;
+    background-color: #f1f1f1;
+  }
+  
+  /* Style the links inside the dropdown */
+  .dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+  }
+  
+  /* Change the background color of the dropdown button when the dropdown content is shown */
+  .dropdown:hover .dropbtn {
+    background-color: #3e8e41;
+  }
+  
+  /* Show the dropdown menu on hover */
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+  
+  /* Change the color of dropdown links on hover */
+  .dropdown-content a:hover {
+    background-color: #ddd;
+  }
+  
+  
+  /* Bars in bar chart */
+  .bar {
+    fill: #1e90ff;
+  }
+  
+  /* X and Y axis in bar chart */
+  .axis text {
+    font-size: 14px;
+    fill: #333;
+  }
+  
+  /* Bars in histogram */
+  .rect {
+    fill: #1e90ff;
+  }
+  
+  /* X and Y axis in histogram */
+  .axis text {
+    font-size: 14px;
+    fill: #333;
+  }
+  
+  /* Circles in scatterplot */
+  .circle {
+    fill: #1e90ff;
+  }
+  
+  /* X and Y axis in scatterplot */
+  .axis text {
+    font-size: 14px;
+    fill: #333;
+  }
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .dropdown {
+    margin-bottom: 20px;
+  }
+  
+  .dropdown select {
+    font-size: 16px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+    box-sizing: border-box;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-color: #fff;
+    background-image: linear-gradient(45deg, transparent 50%, #ccc 50%),
+                      linear-gradient(135deg, #ccc 50%, transparent 50%),
+                      linear-gradient(to right, #ccc, #ccc);
+    background-position: calc(100% - 20px) calc(1em + 2px), calc(100% - 15px) calc(1em + 2px), 100% 0;
+    background-size: 5px 5px, 5px 5px, 2.5em 2.5em;
+    background-repeat: no-repeat;
+  }
+  
+  .chart-container {
+    margin-top: 20px;
+  }
+  
+  .chart-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .barchart rect {
+    fill: #1f77b4;
+  }
+  
+  .histogram rect {
+    fill: #1f77b4;
+  }
+  
+  .scatterplot circle {
+    fill: #1f77b4;
+  }
+  
+  .axis text {
+    font-size: 14px;
+  }
+
+.chart rect {
+	fill: steelblue;
+}
+
+.chart text {
+	fill: rgb(0, 0, 0);
+	font: 10px sans-serif;
+	text-anchor: end;
+}
+
+.axis path,
+.axis line {
+	fill: none;
+	stroke: black;
+	shape-rendering: crispEdges;
+}
+
+.axis text {
+	font: 18px sans-serif;
+}
+
+.toggle-btn {
+	margin-top: 10px;
+	margin-bottom: 20px;        
+    background-color: #04AA6D;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    align-items: center;
+
+}
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+  }
+
+  /*Toggle Button Exp */
+  .toggle-btn {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+    background-color: rgb(0, 131, 0);
+    border-radius: 34px;
+    border: none;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .toggle-btn:focus {
+    outline: none;
+  }
+  
+  .toggle-btn:after {
+    content: "";
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 30px;
+    height: 30px;
+    background-color: white;
+    border-radius: 50%;
+    transition: all 0.3s;
+  }
+  
+  .toggle-btn[aria-pressed="true"] {
+    background-color: #ffbb00;
+  }
+  
+  .toggle-btn[aria-pressed="true"]:after {
+    transform: translateX(26px);
+  }
+
+  .header {
+    position:relative;
+    text-align:center;
+    background: linear-gradient(60deg, rgba(84,58,183,1) 0%, rgba(0,172,193,1) 100%);
+    color:white;
+    padding-top: 30px;
+    padding-bottom: 30px;
+  }
+  .scatterchart
+  {
+    width: 960px;
+    height: 500px;
+    margin: 0 auto;
+  }

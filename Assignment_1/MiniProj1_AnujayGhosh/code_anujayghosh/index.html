@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Mini Project #1 - Anujay Ghosh</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+</head>
+
+<body>
+    <div class="header">
+        <h1>CSE564 VISUALIZATION -  MINI PROJECT #1 - ANUJAY GHOSH</h1>
+    </div>
+    <div class="center">
+        <h3>Bar Chart and Histogram Visualization</h3>
+    </div>
+    <div class="container">
+
+
+        <div class="dropdown"> <select id="select-field" onchange="updateChart(this.value)">
+                <div class="dropdown-content">
+                    <option value="">--Select a field--</option>
+                    <option value="bank_name_debit">Bank wise issuance of Debit Cards (Bar)</option>
+                    <option value="bank_name_credit">Bank wise issuance of Credit Cards (Bar)</option>
+                    <option value="no_atms_on_site">Number of ATMs on site</option>
+                    <option value="no_atms_off_site">Number of ATMs off site</option>
+                    <option value="no_pos_on_line">Number of POS online</option>
+                    <option value="no_pos_off_line">Number of POS offline</option>
+                    <option value="no_credit_cards">Number of Credit Cards</option>
+                    <option value="no_credit_card_atm_txn">Number of Credit cards at ATMs txn</option>
+                    <option value="no_credit_card_pos_txn">Number of Credit cards at POS txn</option>
+                    <option value="no_credit_card_atm_txn_value_in_mn">Number of Credit Card ATM txn value in mill.
+                    </option>
+                    <option value="no_credit_card_pos_txn_value_in_mn">Number of Credit Card POS txn value in mill.
+                    </option>
+                    <option value="no_debit_cards">Number of Debit Cards</option>
+                    <option value="no_debit_card_atm_txn">Number of Debit Cards at ATM txn</option>
+                    <option value="no_debit_card_pos_txn">Number of Debit Cards at POS txn</option>
+                    <option value="no_debit_card_atm_txn_value_in_mn">Number of Debit Card ATM txn value in mill.
+                    </option>
+                    <option value="no_debit_card_pos_txn_value_in_mn">Number of Debit Card POS txn value in mill.
+                    </option>
+
+                </div>
+            </select>
+        </div>
+
+
+        <div id="chart"></div>
+    </div>
+
+    <script>
+        function updateChart(field) {
+            d3.csv("data.csv", (function (data) {
+                if (field === "bank_name_debit") {
+                    drawBarChart(data, "no_debit_cards");
+                } else if (field === "bank_name_credit") {
+                    drawBarChart(data, "no_credit_cards");
+                }
+                else if (field === "no_atms_on_site") {
+                    drawHistogram(data, field, "Number of ATMs on site");
+                } else if (field === "no_atms_off_site") {
+                    drawHistogram(data, field, "Number of ATMs off site");
+                } else if (field === "no_pos_on_line") {
+                    drawHistogram(data, field, "Number of POS online");
+                } else if (field === "no_pos_off_line") {
+                    drawHistogram(data, field, "Number of POS offline");
+                } else if (field === "no_credit_cards") {
+                    drawHistogram(data, field, "Number of Credit Cards");
+                } else if (field === "no_credit_card_atm_txn") {
+                    drawHistogram(data, field, "Number of Credit cards at ATMs txn");
+                } else if (field === "no_credit_card_pos_txn") {
+                    drawHistogram(data, field, "Number of Credit cards at POS txn");
+                } else if (field === "no_credit_card_atm_txn_value_in_mn") {
+                    drawHistogram(data, field, "Number of Credit Card ATM txn value in mill.");
+                } else if (field === "no_credit_card_pos_txn_value_in_mn") {
+                    drawHistogram(data, field, "Number of Credit Card POS txn value in mill.");
+                } else if (field === "no_debit_cards") {
+                    drawHistogram(data, field, "Number of Debit Cards");
+                } else if (field === "no_debit_card_atm_txn") {
+                    drawHistogram(data, field, "Number of Debit Cards at ATM txn");
+                } else if (field === "no_debit_card_pos_txn") {
+                    drawHistogram(data, field, "Number of Debit Cards at POS txn");
+                } else if (field === "no_debit_card_atm_txn_value_in_mn") {
+                    drawHistogram(data, field, "Number of Debit Card ATM txn value in mill.");
+                } else if (field === "no_debit_card_pos_txn_value_in_mn") {
+                    drawHistogram(data, field, "Number of Debit Card POS txn value in mill.");
+                }
+            })
+            );
+        }
+    </script>
+
+    <div class="center">
+        <div class="chart"></div>
+    </div>
+    <div class="center">
+        <!-- <button class="toggle-btn"> 
+TOGGLE ORIENTATION
+        </button> -->
+        <h4>Orientation: </h4>
+        <button id="toggle-btn" class="toggle-btn" aria-pressed="false"></button>
+
+
+    </div>
+
+    <script>
+        const toggleButton = document.getElementById("toggle-btn");
+
+        toggleButton.addEventListener("click", function () {
+            const pressed = toggleButton.getAttribute("aria-pressed") === "true";
+            toggleButton.setAttribute("aria-pressed", !pressed);
+        });
+    </script>
+
+<div class="center">
+    <h3>Scatter Plot Visualization</h3>
+</div>
+<div class="center">
+    <div class="dropdown"> <select id="scatterdropdownX" onchange="drawScatterPlot(this.value)">
+            <option value="month" > Month
+            </option>
+            <option value="year" checked> Year
+            </option>
+            <option value="start_date"> Start Date
+            </option>
+            <option value="end_date"> End Date
+            </option>
+            <option value="bank_name"> Bank Name
+            </option>
+            <option value="no_atms_on_site" checked> No. of ATMs On-Site
+            </option>
+            <option value="no_atms_off_site"> No. of ATMs Off-Site
+            </option>
+            <option value="no_pos_on_line"> No. of POS On-Line
+            </option>
+            <option value="no_pos_off_line"> No. of POS Off-Line
+            </option>
+            <option value="no_credit_cards"> No. of Credit Cards
+            </option>
+            <option value="no_credit_card_atm_txn"> No. of Credit Card ATM
+                Transactions
+            </option>
+            <option value="no_credit_card_pos_txn"> No. of Credit Card POS
+                Transactions
+            </option>
+            <option value="no_credit_card_atm_txn_value_in_mn"> Credit Card
+                ATM
+                Transactions Value in Million
+            </option>
+            <option value="no_credit_card_pos_txn_value_in_mn"> Credit Card
+                POS
+                Transactions Value in Million
+            </option>
+            <option value="no_debit_cards"> No. of Debit Cards
+            </option>
+            <option value="no_debit_card_atm_txn"> No. of Debit Card ATM
+                Transactions
+            </option>
+            <option value="no_debit_card_pos_txn"> No. of Debit Card POS
+                Transactions
+            </option>
+            <option value="no_debit_card_atm_txn_value_in_mn"> Debit Card
+                ATM
+                Transactions Value in Million
+            </option>
+            <option value="no_debit_card_pos_txn_value_in_mn"> Debit Card
+                POS
+                Transactions Value in Million
+            </option>
+        </select>
+    </div>
+    <div class="dropdown"> <select id="scatterdropdownY">
+            <option value="month" checked> Month
+            </option>
+            <option value="year"> Year
+            </option>
+            <option value="start_date"> Start Date
+            </option>
+            <option value="end_date"> End Date
+            </option>
+            <option value="bank_name"> Bank Name
+            </option>
+            <option value="no_atms_on_site" checked> No. of ATMs On-Site
+            </option>
+            <option value="no_atms_off_site"> No. of ATMs Off-Site
+            </option>
+            <option value="no_pos_on_line"> No. of POS On-Line
+            </option>
+            <option value="no_pos_off_line"> No. of POS Off-Line
+            </option>
+            <option value="no_credit_cards"> No. of Credit Cards
+            </option>
+            <option value="no_credit_card_atm_txn"> No. of Credit Card ATM
+                Transactions
+            </option>
+            <option value="no_credit_card_pos_txn"> No. of Credit Card POS
+                Transactions
+            </option>
+            <option value="no_credit_card_atm_txn_value_in_mn"> Credit Card
+                ATM
+                Transactions Value in Million
+            </option>
+            <option value="no_credit_card_pos_txn_value_in_mn"> Credit Card
+                POS
+                Transactions Value in Million
+            </option>
+            <option value="no_debit_cards"> No. of Debit Cards
+            </option>
+            <option value="no_debit_card_atm_txn"> No. of Debit Card ATM
+                Transactions
+            </option>
+            <option value="no_debit_card_pos_txn"> No. of Debit Card POS
+                Transactions
+            </option>
+            <option value="no_debit_card_atm_txn_value_in_mn"> Debit Card
+                ATM
+                Transactions Value in Million
+            </option>
+            <option value="no_debit_card_pos_txn_value_in_mn"> Debit Card
+                POS
+                Transactions Value in Million
+            </option>
+        </select>
+    </div>
+</div>
+<div class="center">
+    <div class="scatterchart"></div>
+</div>
+
+<script>
+
+    const xAxisDropdown = document.getElementById("scatterdropdownX");
+    const yAxisDropdown = document.getElementById("scatterdropdownY");
+
+    xAxisDropdown.addEventListener("change", () => {
+        const xaxis = xAxisDropdown.value;
+        const yaxis = yAxisDropdown.value;
+        drawScatterPlot(xaxis, yaxis);
+    });
+
+    yAxisDropdown.addEventListener("change", () => {
+        const xaxis = xAxisDropdown.value;
+        const yaxis = yAxisDropdown.value;
+        drawScatterPlot(xaxis, yaxis);
+    });
+
+    // initialize the chart with the default options
+    const defaultXAxis = xAxisDropdown.value;
+    const defaultYAxis = yAxisDropdown.value;
+    drawScatterPlot(defaultXAxis, defaultYAxis);
+
+</script>
+
+    <!-- <div class="center">
+        <h3>Scatter Plot Visualization</h3>
+    </div>
+    <div class="center">
+        <div class="dropdown">
+            <table id="scatter-table">
+                <tr>
+                    <td>
+                        <h4>X-axis</h4>
+                    </td>
+                    <td>
+                        <h4>Y-axis</h4>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label><input type="radio" name="x-axis" value="month" checked> Month
+                        </label></td>
+                    <td><label><input type="radio" name="y-axis" value="month" checked> Month
+                        </label></td>
+                </tr>
+                <tr>
+                    <td><label><input type="radio" name="x-axis" value="year"> Year
+                        </label></td>
+                    <td><label><input type="radio" name="y-axis" value="year"> Year
+                        </label></td>
+                </tr>
+                <tr>
+                    <td><label><input type="radio" name="x-axis" value="start_date"> Start Date
+                        </label></td>
+                    <td><label><input type="radio" name="y-axis" value="start_date"> Start Date
+                        </label></td>
+                </tr>
+                <tr>
+                    <td><label><input type="radio" name="x-axis" value="end_date"> End Date
+                        </label></td>
+                    <td><label><input type="radio" name="y-axis" value="end_date"> End Date
+                        </label></td>
+                </tr>
+                <tr>
+                    <td><label><input type="radio" name="x-axis" value="bank_name"> Bank Name
+                        </label></td>
+                    <td><label><input type="radio" name="y-axis" value="bank_name"> Bank Name
+                        </label></td>
+                </tr>
+                <tr>
+                    <td><label><input type="radio" name="x-axis" value="no_atms_on_site" checked> No. of ATMs On-Site
+                        </label></td>
+                    <td><label><input type="radio" name="y-axis" value="no_atms_on_site" checked> No. of ATMs On-Site
+                        </label></td>
+                </tr>
+                <tr>
+                    <td><label><input type="radio" name="x-axis" value="no_atms_off_site"> No. of ATMs Off-Site
+                        </label></td>
+                    <td><label><input type="radio" name="y-axis" value="no_atms_off_site"> No. of ATMs Off-Site
+                        </label></td>
+                </tr>
+                <tr>
+                    <td><label><input type="radio" name="x-axis" value="no_pos_on_line"> No. of POS On-Line
+                        </label></td>
+                    <td><label><input type="radio" name="y-axis" value="no_pos_on_line"> No. of POS On-Line
+                        </label></td>
+                </tr>
+                <tr>
+                    <td><label><input type="radio" name="x-axis" value="no_pos_off_line"> No. of POS Off-Line
+                        </label></td>
+                    <td><label><input type="radio" name="y-axis" value="no_pos_off_line"> No. of POS Off-Line
+                        </label></td>
+                </tr>
+                <tr>
+                    <td><label><input type="radio" name="x-axis" value="no_credit_cards"> No. of Credit Cards
+                        </label></td>
+                    <td><label><input type="radio" name="y-axis" value="no_credit_cards"> No. of Credit Cards
+                        </label></td>
+                </tr>
+                <tr>
+                    <td><label><input type="radio" name="x-axis" value="no_credit_card_atm_txn"> No. of Credit Card ATM
+                            Transactions
+                        </label></td>
+                    <td><label><input type="radio" name="y-axis" value="no_credit_card_atm_txn"> No. of Credit Card ATM
+                            Transactions
+                        </label></td>
+                </tr>
+                <tr>
+                    <td><label><input type="radio" name="x-axis" value="no_credit_card_pos_txn"> No. of Credit Card POS
+                            Transactions
+                        </label></td>
+                    <td><label><input type="radio" name="y-axis" value="no_credit_card_pos_txn"> No. of Credit Card POS
+                            Transactions
+                        </label></td>
+                </tr>
+                <tr>
+                    <td><label><input type="radio" name="x-axis" value="no_credit_card_atm_txn_value_in_mn"> Credit Card
+                            ATM
+                            Transactions Value in Million
+                        </label></td>
+                    <td><label><input type="radio" name="y-axis" value="no_credit_card_atm_txn_value_in_mn"> Credit Card
+                            ATM
+                            Transactions Value in Million
+                        </label></td>
+                </tr>
+                <tr>
+                    <td><label><input type="radio" name="x-axis" value="no_credit_card_pos_txn_value_in_mn"> Credit Card
+                            POS
+                            Transactions Value in Million
+                        </label></td>
+                    <td><label><input type="radio" name="y-axis" value="no_credit_card_pos_txn_value_in_mn"> Credit Card
+                            POS
+                            Transactions Value in Million
+                        </label></td>
+                </tr>
+                <tr>
+                    <td><label><input type="radio" name="x-axis" value="no_debit_cards"> No. of Debit Cards
+                        </label></td>
+                    <td><label><input type="radio" name="y-axis" value="no_debit_cards"> No. of Debit Cards
+                        </label></td>
+                </tr>
+                <tr>
+                    <td><label><input type="radio" name="x-axis" value="no_debit_card_atm_txn"> No. of Debit Card ATM
+                            Transactions
+                        </label></td>
+                    <td><label><input type="radio" name="y-axis" value="no_debit_card_atm_txn"> No. of Debit Card ATM
+                            Transactions
+                        </label></td>
+                </tr>
+                <tr>
+                    <td><label><input type="radio" name="x-axis" value="no_debit_card_pos_txn"> No. of Debit Card POS
+                            Transactions
+                        </label></td>
+                    <td><label><input type="radio" name="y-axis" value="no_debit_card_pos_txn"> No. of Debit Card POS
+                            Transactions
+                        </label></td>
+                </tr>
+                <tr>
+                    <td><label><input type="radio" name="x-axis" value="no_debit_card_atm_txn_value_in_mn"> Debit Card
+                            ATM
+                            Transactions Value in Million
+                        </label></td>
+                    <td><label><input type="radio" name="y-axis" value="no_debit_card_atm_txn_value_in_mn"> Debit Card
+                            ATM
+                            Transactions Value in Million
+                        </label></td>
+                </tr>
+                <tr>
+                    <td><label><input type="radio" name="x-axis" value="no_debit_card_pos_txn_value_in_mn"> Debit Card
+                            POS
+                            Transactions Value in Million
+                        </label></td>
+                    <td><label><input type="radio" name="y-axis" value="no_debit_card_pos_txn_value_in_mn"> Debit Card
+                            POS
+                            Transactions Value in Million
+                        </label></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="center">
+        <div class="scatterchart"></div>
+    </div>
+
+    <script>
+        // Get the table element
+const table = document.getElementById("scatter-table");
+
+// Attach a change event listener to the table
+table.addEventListener("change", function(event) {
+  // Check if the target is a radio input
+  if (event.target.nodeName === "INPUT" && event.target.type === "radio") {
+    // Get the selected x-axis and y-axis values
+    const xaxis = document.querySelector('input[name="x-axis"]:checked').value;
+    const yaxis = document.querySelector('input[name="y-axis"]:checked').value;
+    
+    // Update the scatter plot
+    drawScatterPlot(xaxis, yaxis);
+  }
+});
+    </script> -->
+
+    <script src="scatterplot.js"></script>
+    <script src="barchart.js"></script>
+    <script src="histogram.js"></script>
+</body>
+
+</html>
