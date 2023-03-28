@@ -6,7 +6,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://d3js.org/d3.v7.min.js"></script>
+    <!-- <script src="https://d3js.org/d3.v3.min.js"></script> -->
+    <script src="{{ url_for('static', filename='js/d3.parcoords.js') }}"></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/d3.parcoords.css') }}">
 </head>
 
 <body style="align-items: center;">
@@ -44,6 +47,16 @@
                 <script src="{{ url_for('static', filename='js/parallelplot.js') }}"></script>
             </div>
         </section>
+
+        <!-- <section class="section">
+            <div class="center-parallel">
+                <h2 class="section-heading">Parallel Coordinate Plot Rough</h2>
+            </div>
+            <div class="center-parallel">
+                <div id="parallel_chart2"></div>
+                <script src="{{ url_for('static', filename='js/parallelplot2.js') }}"></script>
+            </div>
+        </section> -->
 
     </main>
 </body>

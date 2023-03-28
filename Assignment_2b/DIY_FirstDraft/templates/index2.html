@@ -5,49 +5,22 @@
     <title>LAB #2B- ANUJAY GHOSH</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://d3js.org/d3.v3.min.js"></script>
+    <!-- <script src="https://d3js.org/d3.v3.min.js"></script> -->
+    <script src="{{ url_for('static', filename='js/d3.parcoords.js') }}"></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/d3.parcoords.css') }}">
 </head>
 
 <body style="align-items: center;">
     <header class="header">
         <h1>CSE564 VISUALIZATION - LAB #2B- ANUJAY GHOSH</h1>
     </header>
-    <script src="{{ url_for('static', filename='js/biplot2.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/loadingsTable.js') }}"></script>
-    <main class="main">
 
-        <section class="section">
-            <div class="center">
-                <h2 class="section-heading">K-means Clustering</h2>
-            </div>
-            <div class="center">
-                <div id="kmeanschart"></div>
-            </div>
-        </section>
+    <div id="parallel_chart2"></div>
+    <script src="{{ url_for('static', filename='js/parallelplot2.js') }}"></script>
 
-        <script>
-            // Fetch the data from Flask and create the chart
-            fetch('/kmeans')
-                .then(response => response.json())
-                .then(data => {
-                    createKMeansChart(data);
-                })
-                .catch(error => console.error(error));
-        </script>
-        <script src="{{ url_for('static', filename='js/kmeans.js') }}"></script>
 
-        <section class="section">
-            <div class="center">
-                <h2 class="section-heading">Sum of Squared Loadings Line Chart</h2>
-            </div>
-            <div class="center">
-                <div id="linechart"></div>
-                <script src="{{ url_for('static', filename='js/linechart.js') }}"></script>
-            </div>
-        </section>
-
-    </main>
 </body>
 
 </html>
