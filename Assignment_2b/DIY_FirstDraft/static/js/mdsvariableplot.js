@@ -30,6 +30,29 @@ d3.json("/mds_variableplot").then(function (data) {
     // Define color scale for clusters
     const color = d3.scaleOrdinal(d3.schemeCategory10);
 
+    var dimensionsMDS = [
+        "bank_name",
+        "end_date",
+        "month",
+        "month_number",
+        "no_atms_off_site",
+        "no_atms_on_site",
+        "no_credit_card_atm_txn",
+        "no_credit_card_atm_txn_value_in_mn",
+        "no_credit_card_pos_txn",
+        "no_credit_card_pos_txn_value_in_mn",
+        "no_credit_cards",
+        "no_debit_card_atm_txn",
+        "no_debit_card_atm_txn_value_in_mn",
+        "no_debit_card_pos_txn",
+        "no_debit_card_pos_txn_value_in_mn",
+        "no_debit_cards",
+        "no_pos_off_line",
+        "no_pos_on_line",
+        "start_date",
+        "year"
+    ]
+
     svg2.selectAll("triangle")
         .data(data)
         .enter()
@@ -41,13 +64,38 @@ d3.json("/mds_variableplot").then(function (data) {
         .style("opacity", 1.0)
         .style("stroke", function (d) { return color(d.cluster); })
         .each(function (d) {
-            // Add text element for each circle
+            // Add text element for each tri
             svg2.append("text")
+            .attr("id","mdsvariabletext")
                 .attr("x", xScale(d.x) + 10) // Position text to the right of triangle
                 .attr("y", yScale(d.y))
-                .text(d.variable_name); // Set text to ID
+                .text(d.variable_name)// Set text to ID
+
         });
 
+    svg2.selectAll("#mdsvariabletext")
+        .on("click", function () {
+            var variable_name = this.textContent;
+            dimensions.splice(0, 0, dimensions.splice(dimensions.indexOf(variable_name), 1)[0]);
+            console.log(dimensionsMDS);
+            renderParallelPlot(dimensionsMDS);
+
+        })
+        .on("mouseover", function () {
+            d3.select(this)
+                .style("font-weight", "bold");
+        })
+        .on("mouseout", function () {
+            d3.select(this)
+                .style("font-weight", "normal")
+                .style("fill", "black");
+        });
+
+    d3.select(".parallel-btn")
+        .on("click", function () {
+            // call renderPlot function from parallelplot.js with the updated dimensions array
+            renderParallelPlot(dimensionsMDS);
+        });
 
     // Add x-axis
     var xAxis2 = d3.axisBottom(xScale);
@@ -85,17 +133,17 @@ d3.json("/mds_variableplot").then(function (data) {
         .attr("class", "legend")
         .attr("transform", function (d, i) { return "translate(0," + i * 20 + ")"; });
 
-        legend2.append("path")
+    legend2.append("path")
         .attr("d", d3.symbol().type(d3.symbolTriangle).size(70))
-        .attr("transform", function(d, i) { return "translate(" + (width - margin.right / 2) + "," + (margin.top / 2 + 10 ) + ")"; })
+        .attr("transform", function (d, i) { return "translate(" + (width - margin.right / 2) + "," + (margin.top / 2 + 10) + ")"; })
         .style("fill", color);
 
     legend2.append("text")
         .attr("x", width - (margin.right * 1.5) + 70)
-        .attr("y", margin.top + 10 - 25 )
+        .attr("y", margin.top + 10 - 25)
         .attr("dy", ".35em")
         .style("text-anchor", "start")
-        .text(function (d) { return "Cluster " + (d+1); });
+        .text(function (d) { return "Cluster " + (d + 1); });
 
     // Add a border around the legend
     var legendBox2 = legend2.node().getBBox();

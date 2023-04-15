@@ -106,7 +106,23 @@ h1 {
     box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
 }
 
+#variablemds_chart2 {
+    margin: 50px auto;
+    width: 110%;
+    height: 600px;
+    background-color: #ffffff;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+}
+
 #parallel_chart{
+    margin: 50px auto;
+    width: 110%;
+    height: 1000px;
+    background-color: #ffffff;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+}
+
+#parallel_chart2{
     margin: 50px auto;
     width: 110%;
     height: 1000px;
@@ -253,4 +269,27 @@ thead {
   .axis text {
     text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;
     cursor: move;
+  }
+
+  .parallel-btn {
+    display: inline-block;
+    padding: 15px 25px;
+    font-size: 24px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    outline: none;
+    color: #fff;
+    background-color: #533fc5;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 9px #999;
+  }
+  
+  .parallel-btn:hover {background-color: #3e8e41}
+  
+  .parallel-btn:active {
+    background-color: #3d3885;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
   }

@@ -162,6 +162,10 @@ def index():
     # Render template with scree plot data
     return render_template('index.html', scree_data=scree_data)
 
+@app.route('/index2', methods=['GET', 'POST'])
+def index_func():
+    return render_template('index2.html')
+
 def perform_kmeans_clustering(dataset_path, num_clusters):
     # Load the dataset
     dataset = pd.read_csv(dataset_path)
@@ -311,6 +315,8 @@ def get_paralleldata():
     # Convert the DataFrame to a list of dictionaries
     dataset = data.to_dict(orient="records")
     return jsonify(dataset)
+
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8000, debug=True)

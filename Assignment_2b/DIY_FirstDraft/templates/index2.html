@@ -5,7 +5,7 @@
     <title>LAB #2B- ANUJAY GHOSH</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://d3js.org/d3.v3.min.js"></script>
+    <script src="{{ url_for('static', filename='js/d3.min.js') }}"></script>
     <!-- <script src="https://d3js.org/d3.v3.min.js"></script> -->
     <script src="{{ url_for('static', filename='js/d3.parcoords.js') }}"></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
@@ -17,8 +17,27 @@
         <h1>CSE564 VISUALIZATION - LAB #2B- ANUJAY GHOSH</h1>
     </header>
 
-    <div id="parallel_chart2"></div>
-    <script src="{{ url_for('static', filename='js/parallelplot2.js') }}"></script>
+    <section class="section">
+        <div class="center">
+            <h2 class="section-heading">MDS Variable Plot</h2>
+        </div>
+        <div class="center">
+            <div id="variablemds_chart2"></div>
+            <script src="{{ url_for('static', filename='js/mdsvariableplot2.js') }}"></script>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="center-parallel">
+            <h2 class="section-heading">Parallel Coordinate Plot</h2>
+        </div>
+        <div class="center-parallel">
+            <div id="parallel_chart2" class="parcoords"> </div>
+            <script src="{{ url_for('static', filename='js/parallelplot2.js') }}"></script>
+
+
+        </div>
+    </section>
 
 
 </body>

@@ -48,7 +48,8 @@ d3.json("/mds_dataplot").then(function (data) {
         .attr("transform", "translate(-20," + (height - 50) + ")")
         .call(xAxis1)
         .selectAll("text")
-        .attr("transform", "rotate(-45)");
+        .attr("transform", "rotate(-45)")
+        .attr("text-anchor", "end");
 
     // Add y-axis
     svg1.append("g")

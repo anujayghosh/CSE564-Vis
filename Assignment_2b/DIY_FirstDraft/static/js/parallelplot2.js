@@ -1,90 +1,24 @@
-// Initialize parallel coordinates plot
-var pc = d3.parcoords()("#parallel_chart2");
+var margin = { top: 50, right: 60, bottom: 50, left: 80 };
+var width = 1920 - margin.left - margin.right;
+var height = 900 - margin.top - margin.bottom;
 
-// Fetch data from Flask server function
-fetch('/parallel_data')
-  .then(response => response.json())
-  .then(data => {
-    // Define dimensions with custom scales for categorical dimensions
-    pc.dimensions([
-      {
-        key: "cluster_id",
-        type: "number"
-      },
-      {
-        key: "month_number",
-        type: "number"
-      },
-      {
-        key: "no_atms_off_site",
-        type: "number"
-      },
-      {
-        key: "no_atms_on_site",
-        type: "number"
-      },
-      {
-        key: "no_credit_card_atm_txn",
-        type: "number"
-      },
-      {
-        key: "no_credit_card_atm_txn_value_in_mn",
-        type: "number"
-      },
-      {
-        key: "no_credit_card_pos_txn",
-        type: "number"
-      },
-      {
-        key: "no_credit_card_pos_txn_value_in_mn",
-        type: "number"
-      },
-      {
-        key: "no_credit_cards",
-        type: "number"
-      },
-      {
-        key: "no_debit_card_atm_txn",
-        type: "number"
-      },
-      {
-        key: "no_debit_card_atm_txn_value_in_mn",
-        type: "number"
-      },
-      {
-        key: "no_debit_card_pos_txn",
-        type: "number"
-      },
-      {
-        key: "no_debit_card_pos_txn_value_in_mn",
-        type: "number"
-      },
-      {
-        key: "no_debit_cards",
-        type: "number"
-      },
-      {
-        key: "no_pos_off_line",
-        type: "number"
-      },
-      {
-        key: "no_pos_on_line",
-        type: "number"
-      },
-      {
-        key: "year",
-        type: "number"
-      }
-    ]);
-
-    // Define custom scales for categorical dimensions
-    pc.scale("bank_name", d3.scale.ordinal());
-    pc.scale("end_date", d3.scale.ordinal());
-    pc.scale("month", d3.scale.ordinal());
-    pc.scale("start_date", d3.scale.ordinal());
-
-    // Render data in parallel coordinates plot
-    pc.data(data).render();
+var parcoords = d3.parcoords()("#parallel_chart2")
+  .alpha(0.4)
+  .mode("queue") // progressive rendering
+  .height(height)
+  .margin({
+    top: margin.top,
+    left: margin.left,
+    right: margin.right,
+    bottom: margin.bottom
   });
 
+  d3.json("/parallel_data", function(data) {
 
+    data.forEach(function(d,i) { d.id = d.id || i; });
+    console.log(data)
+    parcoords
+      .data(data)
+      .render()
+      .reorderable();
+  });
