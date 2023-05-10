@@ -12,6 +12,7 @@ d3.json("/get_banks_data", function (banksData) { // Load the state data from Fl
 
         var sliderContainer = d3.select("#slider-container");
         var clickedState = "All States";
+        var selectedStates = [];
         var clickedPath = null;
         var selectedDate = new Date(2022, 11, 31).getTime();
         var sliderYear = "2022";
@@ -30,27 +31,26 @@ d3.json("/get_banks_data", function (banksData) { // Load the state data from Fl
         }
 
         // console.log("QS length: " + quarterSteps.length)
-        function updateSlider(selDate)
-        {
-        slider = d3.slider()
-            .min(new Date(2006, 2, 31).getTime())
-            .max(new Date(2022, 11, 31).getTime())
-            .ticks(67)
-            .tickFormat(function (d) {
-                // Format the tick value as a year string
-                var datefor = sliderDateFormat(new Date(d));
-                if (datefor != prevYear) {
-                    prevYear = datefor;
-                    return datefor;
-                }
-                else {
-                    return "";
-                }
-            })
-            .stepValues(quarterSteps)
-            .value(selDate)
-            .showRange(true)
-            .callback(updateDashboard);
+        function updateSlider(selDate) {
+            slider = d3.slider()
+                .min(new Date(2006, 2, 31).getTime())
+                .max(new Date(2022, 11, 31).getTime())
+                .ticks(67)
+                .tickFormat(function (d) {
+                    // Format the tick value as a year string
+                    var datefor = sliderDateFormat(new Date(d));
+                    if (datefor != prevYear) {
+                        prevYear = datefor;
+                        return datefor;
+                    }
+                    else {
+                        return "";
+                    }
+                })
+                .stepValues(quarterSteps)
+                .value(selDate)
+                .showRange(true)
+                .callback(updateDashboard);
 
             sliderContainer.html("");
             sliderContainer.call(slider);
@@ -183,47 +183,33 @@ d3.json("/get_banks_data", function (banksData) { // Load the state data from Fl
                 clickedPath = d3.select(this);
                 var isSelected = clickedPath.classed("selected");
 
-
                 updateDashboard();
 
-                // Remove dimmed filter from clicked path and highlight it
-                d3.selectAll("#state").classed("dimmed", true);
-                d3.selectAll("#state")
-                    .filter(function (d) { return d.id == stateName; })
-                    .classed("dimmed", false);
+                // Add state id to selectedStates list if not already present
+                if (selectedStates.indexOf(stateName) === -1) {
+                    selectedStates.push(stateName);
+                }
+
+
+
                 if (isSelected) {
                     clickedPath.classed("selected", false);
+                    // Remove state id from selectedStates list if already present
+                    selectedStates.splice(selectedStates.indexOf(stateName), 1);
                 } else {
                     clickedPath.classed("selected", true);
                 }
 
-                // Apply dimmed filter to all other state id paths
             }
 
-
-
-
-            // aa = [80.9462, 26.8467];
-            // // add circles to svg
-            // india.selectAll("circle")
-            //     .data([aa]).enter()
-            //     .append("circle")
-            //     .attr("cx", function (d) { console.log(proj(d)); return proj(d)[0]; })
-            //     .attr("cy", function (d) { return proj(d)[1]; })
-            //     .attr("r", "3px")
-            //     .attr("fill", "black")
-            //     .on("mouseover", function () {
-            //         d3.select(this).attr("r", "6px").style('fill', "orange")
-            //     })
-            //     .on("mouseout", function () {
-            //         d3.select(this).attr("r", "3px").style("fill", 'black')
-            //     })
-            //     .append("title")
-            //     .text(function (d) {
-            //         return "City : " + "Lucknow" + "\n Here goes the City data";
-            //     })
-
-
+            if(selectedStates.length !== 0)
+            {
+            // Remove dimmed filter from selected paths and highlight them
+            d3.selectAll("#state").classed("dimmed", true);
+            d3.selectAll("#state")
+                .filter(function (d) { return selectedStates.indexOf(d.id) !== -1; })
+                .classed("dimmed", false);
+            }
 
             var defs = svg.append("defs");
 
@@ -269,8 +255,7 @@ d3.json("/get_banks_data", function (banksData) { // Load the state data from Fl
             proj.translate([-1240, 820]);
         }
 
-        function updateBarChart(selectedState, sliderYear) {
-
+        function updateBarChart(selectedStates, sliderYear) {
             var svgcheck = d3.select("#barchart").select("svg");
 
             // Check if the SVG element exists
@@ -285,24 +270,16 @@ d3.json("/get_banks_data", function (banksData) { // Load the state data from Fl
                 height = 400 - margin.top - margin.bottom;
 
             // Define the x and y scales
-            var x = d3.scale.ordinal()
-                .rangeRoundBands([0, width], 0.1);
-
-            var y = d3.scale.linear()
-                .range([height, 0]);
+            var x = d3.scale.ordinal().rangeRoundBands([0, width], 0.1);
+            var y = d3.scale.linear().range([height, 0]);
 
             // Define the x and y axes
-            var xAxis = d3.svg.axis()
-                .scale(x)
-                .orient("bottom");
-
-            var yAxis = d3.svg.axis()
-                .scale(y)
-                .orient("left")
-                .ticks(10);
+            var xAxis = d3.svg.axis().scale(x).orient("bottom");
+            var yAxis = d3.svg.axis().scale(y).orient("left").ticks(10);
 
             // Create the SVG element and set its size
-            var svg = d3.select("#barchart").append("svg")
+            var svg = d3.select("#barchart")
+                .append("svg")
                 .attr("width", width + margin.left + margin.right)
                 .attr("height", height + margin.top + margin.bottom)
                 .append("g")
@@ -322,15 +299,29 @@ d3.json("/get_banks_data", function (banksData) { // Load the state data from Fl
                 .attr("text-anchor", "middle")
                 .style("font-size", "20px");
 
+            // Create a string of the selected states for the title
+            var stateString = "";
+            if (selectedStates.length > 1) {
+                stateString = "States";
+            } else if (selectedStates.length === 1) {
+                stateString = "State";
+            } else {
+                stateString = "All States";
+            }
+
+
             title.append("tspan")
-                .text(selectedState)
+                .text(selectedStates.join(", "))
                 .style("font-weight", "bold");
+
+            title.append("tspan")
+                .text(" " + stateString)
+                .style("font-weight", "normal");
 
             // Process the data and create the chart
             var yearSum = {};
             banksData.forEach(function (d) {
                 if (clickedState === "All States") {
-
                     quarterPopulation = d["Quarter : Population Group"]
                     var yearString = quarterPopulation.split(" ")[1];
                     var year = parseInt(yearString);
@@ -342,9 +333,8 @@ d3.json("/get_banks_data", function (banksData) { // Load the state data from Fl
                     }
                 }
                 else {
-
-                    if (d["State"] === selectedState) {
-                        quarterPopulation = d["Quarter : Population Group"]
+                    if (selectedStates.indexOf(d["State"]) !== -1) {
+                        quarterPopulation = d["Quarter : Population Group"];
                         var yearString = quarterPopulation.split(" ")[1];
                         var year = parseInt(yearString);
                         var value = d.Value;
@@ -354,10 +344,8 @@ d3.json("/get_banks_data", function (banksData) { // Load the state data from Fl
                             yearSum[year] = value;
                         }
                     }
-
                 }
             });
-
 
 
             // Convert the data into an array of objects with year and value properties
@@ -367,7 +355,6 @@ d3.json("/get_banks_data", function (banksData) { // Load the state data from Fl
                     data.push({ year: year, value: yearSum[year] });
                 }
             }
-
             var colorScaleBar = d3.scale.linear()
                 .domain([d3.min(data, function (d) { return d.value; }), d3.max(data, function (d) { return d.value; })])
                 .range(["#00BFA5", "#005C4F"]);
@@ -398,36 +385,36 @@ d3.json("/get_banks_data", function (banksData) { // Load the state data from Fl
 
             // Add the bars to the chart with transition
             svg.selectAll(".bar")
-            .data(data)
-            .enter().append("rect")
-            .attr("class", "bar")
-            .attr("x", function (d) { return x(d.year); })
-            .attr("width", x.rangeBand())
-            .attr("y", height)
-            .attr("height", 0)
-            .style("fill", function (d) { return colorScaleBar(d.value); })
-            .on("mouseover", function (d) {
-                d3.select(this)
-                    .append("title")
-                    .text("No of Bank Offices : " + d.value);
-            })
-            .on("mouseout", function (d) {
-                d3.select(this).select("title").remove();
-            })
-            .on("click", function (d) {
-                handleClick(d.year);
-            })
-            // .transition()
-            // .duration(1000)
-            .attr("y", function (d) { return y(d.value); })
-            .attr("height", function (d) { return height - y(d.value); });
-        
-        function handleClick(year) {
-            selectedDate = new Date(year, 11, 31).getTime();
-            updateSlider(selectedDate);
-            updateDashboard();
-        }
-        
+                .data(data)
+                .enter().append("rect")
+                .attr("class", "bar")
+                .attr("x", function (d) { return x(d.year); })
+                .attr("width", x.rangeBand())
+                .attr("y", height)
+                .attr("height", 0)
+                .style("fill", function (d) { return colorScaleBar(d.value); })
+                .on("mouseover", function (d) {
+                    d3.select(this)
+                        .append("title")
+                        .text("No of Bank Offices : " + d.value);
+                })
+                .on("mouseout", function (d) {
+                    d3.select(this).select("title").remove();
+                })
+                .on("click", function (d) {
+                    handleClick(d.year);
+                })
+                // .transition()
+                // .duration(1000)
+                .attr("y", function (d) { return y(d.value); })
+                .attr("height", function (d) { return height - y(d.value); });
+
+            function handleClick(year) {
+                selectedDate = new Date(year, 11, 31).getTime();
+                updateSlider(selectedDate);
+                updateDashboard();
+            }
+
 
         }
 
@@ -465,7 +452,7 @@ d3.json("/get_banks_data", function (banksData) { // Load the state data from Fl
                     }
                 }
                 else {
-                    if (quarterPopulation.split(" ")[1] === sliderYear && d["State"] === clickedState) {
+                    if (quarterPopulation.split(" ")[1] === sliderYear && selectedStates.includes(d["State"])) {
                         var popString = quarterPopulation.split(" ")[3];
                         if (!(popString === "Total")) {
                             var value = d.Value;
@@ -649,7 +636,7 @@ d3.json("/get_banks_data", function (banksData) { // Load the state data from Fl
                         var filteredData = v.filter(function (d) {
                             quarterPopulation = d["Quarter : Population Group"]
                             var yearString = quarterPopulation.split(" ")[1];
-                            return (yearString === sliderYear) && (d["State"] === clickedState);
+                            return (yearString === sliderYear) && selectedStates.includes(d["State"]);
                         });
 
                         return d3.sum(filteredData, function (d) { return d["Value"]; });
@@ -699,7 +686,7 @@ d3.json("/get_banks_data", function (banksData) { // Load the state data from Fl
                 .attr("text-anchor", "middle")
                 .attr("font-size", "16px")
                 .text(totalValue);
-                tooltip.append("tspan")
+            tooltip.append("tspan")
                 .attr("class", "tooltip-value")
                 .attr("text-anchor", "middle")
                 .attr("font-size", "16px")
@@ -764,7 +751,7 @@ d3.json("/get_banks_data", function (banksData) { // Load the state data from Fl
                         .attr("y", "18px")
                         .attr("x", "0")
                         .text(totalValue);
-                        tooltip.append("tspan")
+                    tooltip.append("tspan")
                         .attr("class", "tooltip-value")
                         .attr("text-anchor", "middle")
                         .attr("font-size", "16px")
@@ -798,7 +785,7 @@ d3.json("/get_banks_data", function (banksData) { // Load the state data from Fl
 
             sliderYear = isoString.substring(0, 4); // extract year
 
-            updateBarChart(clickedState, sliderYear);
+            updateBarChart(selectedStates, sliderYear);
 
             updateTreeMap();
 
