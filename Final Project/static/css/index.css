@@ -1,0 +1,299 @@
+/*
+ * This product includes color specifications and designs developed by Cynthia
+ * Brewer (http://colorbrewer.org/).
+ */
+.Blues .q0-3 {
+  fill: rgb(222, 235, 247)
+}
+
+.Blues .q1-3 {
+  fill: rgb(158, 202, 225)
+}
+
+.Blues .q2-3 {
+  fill: rgb(49, 130, 189)
+}
+
+.Blues .q0-4 {
+  fill: rgb(239, 243, 255)
+}
+
+.Blues .q1-4 {
+  fill: rgb(189, 215, 231)
+}
+
+.Blues .q2-4 {
+  fill: rgb(107, 174, 214)
+}
+
+.Blues .q3-4 {
+  fill: rgb(33, 113, 181)
+}
+
+.Blues .q0-5 {
+  fill: rgb(239, 243, 255)
+}
+
+.Blues .q1-5 {
+  fill: rgb(189, 215, 231)
+}
+
+.Blues .q2-5 {
+  fill: rgb(107, 174, 214)
+}
+
+.Blues .q3-5 {
+  fill: rgb(49, 130, 189)
+}
+
+.Blues .q4-5 {
+  fill: rgb(8, 81, 156)
+}
+
+.Blues .q0-6 {
+  fill: rgb(239, 243, 255)
+}
+
+.Blues .q1-6 {
+  fill: rgb(198, 219, 239)
+}
+
+.Blues .q2-6 {
+  fill: rgb(158, 202, 225)
+}
+
+.Blues .q3-6 {
+  fill: rgb(107, 174, 214)
+}
+
+.Blues .q4-6 {
+  fill: rgb(49, 130, 189)
+}
+
+.Blues .q5-6 {
+  fill: rgb(8, 81, 156)
+}
+
+.Blues .q0-7 {
+  fill: rgb(239, 243, 255)
+}
+
+.Blues .q1-7 {
+  fill: rgb(198, 219, 239)
+}
+
+.Blues .q2-7 {
+  fill: rgb(158, 202, 225)
+}
+
+.Blues .q3-7 {
+  fill: rgb(107, 174, 214)
+}
+
+.Blues .q4-7 {
+  fill: rgb(66, 146, 198)
+}
+
+.Blues .q5-7 {
+  fill: rgb(33, 113, 181)
+}
+
+.Blues .q6-7 {
+  fill: rgb(8, 69, 148)
+}
+
+.Blues .q0-8 {
+  fill: rgb(247, 251, 255)
+}
+
+.Blues .q1-8 {
+  fill: rgb(222, 235, 247)
+}
+
+.Blues .q2-8 {
+  fill: rgb(198, 219, 239)
+}
+
+.Blues .q3-8 {
+  fill: rgb(158, 202, 225)
+}
+
+.Blues .q4-8 {
+  fill: rgb(107, 174, 214)
+}
+
+.Blues .q5-8 {
+  fill: rgb(66, 146, 198)
+}
+
+.Blues .q6-8 {
+  fill: rgb(33, 113, 181)
+}
+
+.Blues .q7-8 {
+  fill: rgb(8, 69, 148)
+}
+
+.Blues .q0-9 {
+  fill: rgb(247, 251, 255)
+}
+
+.Blues .q1-9 {
+  fill: rgb(222, 235, 247)
+}
+
+.Blues .q2-9 {
+  fill: rgb(198, 219, 239)
+}
+
+.Blues .q3-9 {
+  fill: rgb(158, 202, 225)
+}
+
+.Blues .q4-9 {
+  fill: rgb(107, 174, 214)
+}
+
+.Blues .q5-9 {
+  fill: rgb(66, 146, 198)
+}
+
+.Blues .q6-9 {
+  fill: rgb(33, 113, 181)
+}
+
+.Blues .q7-9 {
+  fill: rgb(8, 81, 156)
+}
+
+.Blues .q8-9 {
+  fill: rgb(8, 48, 107)
+}
+
+body {
+  background-color: #c3c3c3;
+  font-family: "Roboto", sans-serif;
+}
+
+.header {
+  position:relative;
+  text-align:center;
+  background: linear-gradient(60deg, rgba(84,58,183,1) 0%, rgba(0,172,193,1) 100%);
+  color:white;
+  padding-top: 5px;
+  padding-bottom: 5px;
+
+}
+h1{
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+svg {
+  filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.4));
+  background-color: #fff;
+  margin-bottom: 10px;
+}
+
+.inline-div {
+  display: block;
+  float: left;
+  /* width: 30%; */
+  margin: 10px;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+#barchart, #treemapChart, #donutChart {
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+#indiachart {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+#col1
+{
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+.cell {
+  position: absolute;
+  border: 1px solid #fff;
+  overflow: hidden;
+  font-size: 12px;
+  font-family: Arial, sans-serif;
+  text-align: center;
+}
+#charts1{
+  display: flex;
+  flex-direction: row;
+}
+
+#slider-container
+{
+  display: flex;
+  width: 100%;
+}
+
+.reset-button {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background-color: #E65100;
+  /* border: 2px solid #c3c3c3; */
+  color: #fff;
+  font-size: 16px;
+  padding: 5px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  transition-duration: 0.4s;
+  cursor: pointer;
+}
+
+.reset-button:hover {
+  background-color: #000d58;
+  color: #fff;
+}
+
+
+#playButton {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  background-color: #E65100;
+  /* border: 2px solid #c3c3c3; */
+  color: #fff;
+  font-size: 16px;
+  padding: 5px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  transition-duration: 0.4s;
+  cursor: pointer;
+}
+
+#playButton:hover {
+  background-color: #000d58;
+  color: #fff;
+}
+
+/* Define the highlight class */
+.selected {
+  stroke: #E65100;
+  stroke-width: 2px;
+}
+
+/* Define the dim class */
+.dimmed {
+  fill-opacity: 0.2;
+  filter: url(#grayscale);
+}
+
+/* Define the filter to apply grayscale effect */
+#grayscale {
+  filter: grayscale(10%);
+}

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- India State Map  -->
+  <title>India -Number of Bank Offices</title>
+
+  <!--  Scripts  -->
+  <!-- <script src="{{ url_for('static', filename='js/d3.min.js') }}"></script> -->
+  <script src="{{ url_for('static', filename='js/d3.v3.min.js') }}"></script>
+
+  <script src="{{ url_for('static', filename='js/d3.geo.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/d3.slider.js') }}"></script>
+  <script src="https://d3js.org/d3-time.v3.min.js"></script>
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/d3.slider.css') }}">
+  <style type="text/css">
+
+  </style>
+</head>
+
+<body>
+  <div class="header">
+    <button id="playButton" >PLAY</button>
+    <h1>NUMBER OF COMMERCIAL BANK OFFICES IN INDIA</h1>
+    <button class="reset-button" onclick="location.reload();">RESET</button>
+  </div>
+  <section>
+    <div id="slider-container"></div>
+  </section>
+  <section id="charts1">
+    <table>
+      <tr>
+        <td colspan="2">
+          <div id="barchart"></div>
+        </td>
+        
+        <td rowspan="2">
+          <div id="indiachart"></div>
+        </td>
+        <td>
+          <div id="donutChart"></div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <div id="treemapChart"></div>
+        </td>
+        <td>
+          <div id="details-box"></div>
+          
+        </td>
+      </tr>
+      
+    </table>
+  </section>
+
+
+  <!-- <script src="{{ url_for('static', filename='js/chloropleth.js') }}"></script> -->
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+</body>
+
+</html>
