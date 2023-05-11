@@ -43,6 +43,7 @@
 
 .tick line {
   stroke-width: 1;
+  stroke: #fff;
 }
 .tick.minor line {
   stroke-width: 1;

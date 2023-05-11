@@ -1,6 +1,6 @@
 
-var w = 700;
-var h = 760;
+var w = 650;
+var h = 880;
 var proj = d3.geo.mercator();
 var path = d3.geo.path().projection(proj);
 var t = proj.translate(); // the projection's default translation
@@ -13,6 +13,7 @@ d3.json("/get_banks_data", function (banksData) { // Load the state data from Fl
         var sliderContainer = d3.select("#slider-container");
         var clickedState = "All States";
         var selectedStates = [];
+        var selectedRegions = []
         var clickedPath = null;
         var selectedDate = new Date(2022, 11, 31).getTime();
         var sliderYear = "2022";
@@ -87,9 +88,12 @@ d3.json("/get_banks_data", function (banksData) { // Load the state data from Fl
         // Add the slider to the container
 
 
+        // var colorScale = d3.scale.linear()
+        //     .domain([0, 5500])
+        //     .range(["#FFF7BC", "#E65100"]);
         var colorScale = d3.scale.linear()
-            .domain([0, 5500])
-            .range(["#FFF7BC", "#E65100"]);
+            .domain([0, 5000, 5500])
+            .range(["#fdbb2d", "#b21f1f", "#3c3c9d"]);
 
         var colorScales = {
             "northern": d3.scale.linear().domain([0, 5500]).range(["#f7fbff", "#08306b"]),
@@ -123,6 +127,7 @@ d3.json("/get_banks_data", function (banksData) { // Load the state data from Fl
                 .append("svg:svg")
                 .attr("width", w)
                 .attr("height", h)
+                .style("background-color", "#172144")
                 .call(initialize);
 
             var map = svg.append("svg:g")
@@ -130,7 +135,7 @@ d3.json("/get_banks_data", function (banksData) { // Load the state data from Fl
 
             var india = map.append("svg:g")
                 .attr("id", "india")
-                .style('stroke', '#E65100')
+                .style('stroke', '#df0892')
                 .style('stroke-width', '0.2');
 
 
@@ -202,13 +207,12 @@ d3.json("/get_banks_data", function (banksData) { // Load the state data from Fl
 
             }
 
-            if(selectedStates.length !== 0)
-            {
-            // Remove dimmed filter from selected paths and highlight them
-            d3.selectAll("#state").classed("dimmed", true);
-            d3.selectAll("#state")
-                .filter(function (d) { return selectedStates.indexOf(d.id) !== -1; })
-                .classed("dimmed", false);
+            if (selectedStates.length !== 0) {
+                // Remove dimmed filter from selected paths and highlight them
+                d3.selectAll("#state").classed("dimmed", true);
+                d3.selectAll("#state")
+                    .filter(function (d) { return selectedStates.indexOf(d.id) !== -1; })
+                    .classed("dimmed", false);
             }
 
             var defs = svg.append("defs");
@@ -217,8 +221,8 @@ d3.json("/get_banks_data", function (banksData) { // Load the state data from Fl
                 .attr("id", "legend-gradient")
                 .attr("x1", "0%")
                 .attr("y1", "0%")
-                .attr("x2", "0%")
-                .attr("y2", "100%");
+                .attr("x2", "100%")
+                .attr("y2", "0%");
 
             linearGradient.selectAll("stop")
                 .data(colorScale.range())
@@ -228,18 +232,51 @@ d3.json("/get_banks_data", function (banksData) { // Load the state data from Fl
 
             var legend = svg.append("g")
                 .attr("class", "legend")
-                .attr("transform", "translate(" + (w - 270 - 380) + "," + (h - 200) + ")");
-
+                .attr("transform", "translate(" + (w - 200 - 380) + "," + (h - 100) + ")");
+            //70,780
             legend.append("rect")
-                .attr("width", 20)
-                .attr("height", 150)
+                .attr("width", 500)
+                .attr("height", 20)
                 .style("fill", "url(#legend-gradient)");
+
+            var xScale = d3.scale.linear()
+                .domain([0, 5500])
+                .range([0, 500]);
+
+            var xAxis = d3.svg.axis()
+                .scale(xScale)
+                .orient("bottom")
+                .ticks(5);
+
+            var ticks = legend.append("g")
+                .attr("class", "x axis")
+                .attr("transform", "translate(0,20)")
+                .call(xAxis)
+                .selectAll(".tick line")
+                .style("stroke", "black")
+                .style("stroke-width", "1px");
+
+            ticks.each(function (d, i) {
+                var tick = d3.select(this);
+                var x = tick.attr("x1");
+                var y = parseFloat(tick.attr("y1")) - 5;
+                var width = tick.attr("x2") - x;
+                var height = 10;
+
+                legend.append("rect")
+                    .attr("x", x)
+                    .attr("y", y)
+                    .attr("width", width)
+                    .attr("height", height)
+                    .style("fill", colorScale(d));
+            });
 
             legend.selectAll("text")
                 .data(colorScale.domain())
                 .enter().append("text")
-                .attr("x", 25)
-                .attr("y", function (d, i) { return i * 138 + 12; })
+                .attr("x", function (d, i) { return xScale(i); })
+                .attr("y", -5)
+                .attr("text-anchor", "middle")
                 .text(function (d) { return d; });
 
         }
@@ -252,7 +289,7 @@ d3.json("/get_banks_data", function (banksData) { // Load the state data from Fl
 
         function initialize() {
             proj.scale(7000);
-            proj.translate([-1240, 820]);
+            proj.translate([-1280, 820]);
         }
 
         function updateBarChart(selectedStates, sliderYear) {
@@ -265,9 +302,9 @@ d3.json("/get_banks_data", function (banksData) { // Load the state data from Fl
             }
 
             // Define the dimensions of the chart
-            var margin = { top: 80, right: 80, bottom: 80, left: 80 },
-                width = 650 - margin.left - margin.right,
-                height = 400 - margin.top - margin.bottom;
+            var margin = { top: 80, right: 40, bottom: 80, left: 80 },
+                width = 560 - margin.left - margin.right,
+                height = 440 - margin.top - margin.bottom;
 
             // Define the x and y scales
             var x = d3.scale.ordinal().rangeRoundBands([0, width], 0.1);
@@ -282,6 +319,7 @@ d3.json("/get_banks_data", function (banksData) { // Load the state data from Fl
                 .append("svg")
                 .attr("width", width + margin.left + margin.right)
                 .attr("height", height + margin.top + margin.bottom)
+                .style("background-color", "#172144")
                 .append("g")
                 .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
@@ -300,19 +338,19 @@ d3.json("/get_banks_data", function (banksData) { // Load the state data from Fl
                 .style("font-size", "20px");
 
             // Create a string of the selected states for the title
-            var stateString = "";
+            var stateString = "All States";
             if (selectedStates.length > 1) {
-                stateString = "States";
+                stateString = "Selected States";
             } else if (selectedStates.length === 1) {
-                stateString = "State";
+                stateString = selectedStates[0] + " State";
             } else {
                 stateString = "All States";
             }
 
 
-            title.append("tspan")
-                .text(selectedStates.join(", "))
-                .style("font-weight", "bold");
+            // title.append("tspan")
+            //     .text(selectedStates.join(", "))
+            //     .style("font-weight", "bold");
 
             title.append("tspan")
                 .text(" " + stateString)
@@ -355,9 +393,15 @@ d3.json("/get_banks_data", function (banksData) { // Load the state data from Fl
                     data.push({ year: year, value: yearSum[year] });
                 }
             }
+            // var colorScaleBar = d3.scale.linear()
+            //     .domain([d3.min(data, function (d) { return d.value; }), d3.max(data, function (d) { return d.value; })])
+            //     .range(["#00BFA5", "#005C4F"]);
+
             var colorScaleBar = d3.scale.linear()
-                .domain([d3.min(data, function (d) { return d.value; }), d3.max(data, function (d) { return d.value; })])
-                .range(["#00BFA5", "#005C4F"]);
+                .domain([d3.min(data, function (d) { return d.value; }),
+                (d3.max(data, function (d) { return d.value; }) * 9 / 10),
+                d3.max(data, function (d) { return d.value; })])
+                .range(["#fdbb2d", "#b21f1f", "#3c3c9d"]);
 
             // Set the domains of the x and y scales
             x.domain(data.map(function (d) { return d.year; }));
@@ -423,11 +467,13 @@ d3.json("/get_banks_data", function (banksData) { // Load the state data from Fl
             d3.select("#treemapChart").selectAll("*").remove();
 
             // Define the size of the chart
-            var width = 467;
-            var height = 350;
+            var width = 560;
+            var height = 420;
 
             // Define the color scale for the chart
-            var color = d3.scale.category20c();
+            var color = d3.scale.ordinal()
+                .domain(["Metropolitan", "Urban", "Semi-urban", "Rural"])
+                .range(["#fdbb2d", "#b21f1f", "#3c3c9d", "#1a2a6c"]);
 
             // Define the layout for the treemap chart
             var treemap = d3.layout.treemap()
@@ -438,7 +484,7 @@ d3.json("/get_banks_data", function (banksData) { // Load the state data from Fl
             var popSum = {};
             banksData.forEach(function (d) {
                 quarterPopulation = d["Quarter : Population Group"];
-                if (clickedState === "All States") {
+                if (clickedState === "All States" && selectedStates.length === 0) {
                     if (quarterPopulation.split(" ")[1] === sliderYear) {
                         var popString = quarterPopulation.split(" ")[3];
                         if (!(popString === "Total")) {
@@ -493,7 +539,8 @@ d3.json("/get_banks_data", function (banksData) { // Load the state data from Fl
             var svg2 = d3.select("#treemapChart")
                 .append("svg")
                 .attr("width", width)
-                .attr("height", height);
+                .attr("height", height)
+                .style("background-color", "#172144");
 
             // Compute the treemap layout
             var nodes = treemap.nodes(root);
@@ -551,40 +598,89 @@ d3.json("/get_banks_data", function (banksData) { // Load the state data from Fl
         }
 
         function updateDetailsBox() {
-            var width = 175;
-            var height = 350;
+            var width = 250;
+            var height = 880;
 
             d3.select("#details-box").selectAll("*").remove();
 
             // Create the SVG container for the box
             var svg = d3.select("#details-box")
                 .append("svg")
+                .style("background", "linear-gradient(60deg, #1e1474 0%, #df0892 100%)")
+                .style("border", "none")
                 .attr("width", width)
                 .attr("height", height);
 
             // Create a group for the box
-            var boxGroup = svg.append("g");
+            var boxGroup = svg.append("g").style("fill", "none");
 
-            // Add a rectangle to the box group
             boxGroup.append("rect")
                 .attr("width", width)
                 .attr("height", height)
-                .style("fill", "#fff")
-                .style("stroke", "#000");
+                .style("fill", "none");
 
-            // Add text for clickedState to the box group
-            boxGroup.append("text")
-                .text("State : ")
+            var textElem = boxGroup.append("text")
+                .text("GROUP 91")
                 .attr("x", width / 2)
-                .attr("y", height / 2 - 10)
+                .attr("y", height / 2 - 350)
                 .attr("text-anchor", "middle")
                 .style("font-size", "14px")
+                .attr("font-weight", "bold");
+
+            // Add the tspan element for the second line of text
+            textElem.append("tspan")
+                .attr("x", width / 2)
+                .attr("dy", "1.2em")
+                .style("font-size", 18)
+                .attr("font-weight", "bold")
+                .attr("color", "#E65100")
+                .text("ANUJAY GHOSH");
+
+            // Add the rectangle around the text
+            // define the linear gradient
+            var gradient = boxGroup.append("defs")
+                .append("linearGradient")
+                .attr("id", "grad")
+                .attr("x1", "0%")
+                .attr("y1", "0%")
+                .attr("x2", "0%")
+                .attr("y2", "100%");
+            gradient.append("stop")
+                .attr("offset", "0%")
+                .attr("stop-color", "#fff")
+                .attr("stop-opacity", "0.1");
+            gradient.append("stop")
+                .attr("offset", "100%")
+                .attr("stop-color", "#fff")
+                .attr("stop-opacity", "0.5");
+
+            boxGroup.insert("rect", ":first-child")
+                .attr("x", textElem.node().getBBox().x - 20)
+                .attr("y", textElem.node().getBBox().y - 20)
+                .attr("width", textElem.node().getBBox().width + 40)
+                .attr("height", textElem.node().getBBox().height + 40)
+                .attr("fill", "url(#grad)")
+                .attr("stroke", "none")
+                .attr("rx", 20)
+                .attr("filter", "drop-shadow(0px 0px 5px rgba(0, 0, 0, 0.5))");
+
+
+            // Add text for sliderYear to the box group
+            boxGroup.append("text")
+                .text("Year : ")
+                .attr("x", width / 2)
+                .attr("y", height / 2 - 250)
+                .attr("text-anchor", "middle")
+                .style("font-size", "14px")
+                .attr("font-weight", "bold")
                 .append("tspan") // create a new line using tspan
                 .attr("x", width / 2)
                 .attr("dy", "1.2em") // move down one line
                 .style("font-size", 18)
-                .style("color", "#E65100")
-                .text(clickedState);
+                .attr("font-weight", "bold")
+                .attr("color", "#E65100")
+                .text(sliderYear);
+
 
             boxGroup.append("text")
                 .text(" ")
@@ -593,25 +689,85 @@ d3.json("/get_banks_data", function (banksData) { // Load the state data from Fl
                 .attr("text-anchor", "middle")
                 .style("font-size", "36px");
 
-            // Add text for sliderYear to the box group
-            boxGroup.append("text")
-                .text("Year : ")
-                .attr("x", width / 2)
-                .attr("y", height / 2 + 70)
-                .attr("text-anchor", "middle")
-                .style("font-size", "14px")
-                .append("tspan") // create a new line using tspan
-                .attr("x", width / 2)
-                .attr("dy", "1.2em") // move down one line
-                .style("font-size", 18)
-                .attr("color", "#E65100")
-                .text(sliderYear);
+
+
+            if (selectedRegions.length < 6) {
+                boxGroup.append("text")
+                    .text("Selected Region/s : ")
+                    .attr("x", width / 2)
+                    .attr("y", height / 2 - 150)
+                    .attr("text-anchor", "middle")
+                    .style("font-size", "14px")
+                    .attr("font-weight", "bold")
+                    .selectAll("tspan") // use selectAll to create multiple tspans
+                    .data(selectedRegions)
+                    .enter()
+                    .append("tspan")
+                    .attr("x", width / 2)
+                    .attr("dy", "1.2em") // move down one line for each state
+                    .style("font-size", 18)
+                    .style("color", "#E65100")
+                    .text(function (d) { return d; });
+            } else {
+                boxGroup.append("text")
+                    .text("Selected Region/s : ")
+                    .attr("x", width / 2)
+                    .attr("y", height / 2 - 150)
+                    .attr("text-anchor", "middle")
+                    .style("font-size", "14px")
+                    .attr("font-weight", "bold")
+                    .append("tspan") // create a new line using tspan
+                    .attr("x", width / 2)
+                    .attr("dy", "1.2em") // move down one line
+                    .style("font-size", 18)
+                    .attr("font-weight", "bold")
+                    .attr("color", "#E65100")
+                    .text("All Regions");
+            }
+            // Add text for clickedState to the box group
+
+            if (selectedStates.length !== 0) {
+                // Add text for clickedState to the box group
+                boxGroup.append("text")
+                    .text("Selected State/s : ")
+                    .attr("x", width / 2)
+                    .attr("y", height / 2 + 100)
+                    .attr("text-anchor", "middle")
+                    .style("font-size", "14px")
+                    .attr("font-weight", "bold")
+                    .selectAll("tspan") // use selectAll to create multiple tspans
+                    .data(selectedStates)
+                    .enter()
+                    .append("tspan")
+                    .attr("x", width / 2)
+                    .attr("dy", "1.2em") // move down one line for each state
+                    .style("font-size", 18)
+                    .style("color", "#E65100")
+                    .text(function (d) { return d; });
+            } else {
+                boxGroup.append("text")
+                    .text("Selected State/s : ")
+                    .attr("x", width / 2)
+                    .attr("y", height / 2 + 100)
+                    .attr("text-anchor", "middle")
+                    .style("font-size", "14px")
+                    .attr("font-weight", "bold")
+                    .append("tspan") // create a new line using tspan
+                    .attr("x", width / 2)
+                    .attr("dy", "1.2em") // move down one line
+                    .style("font-size", 18)
+                    .attr("font-weight", "bold")
+                    .attr("color", "#E65100")
+                    .text("All States");
+            }
+
+
         }
 
         function updateDonutChart() {
             // Define the donut chart dimensions
-            var width = 400,
-                height = 400,
+            var width = 360,
+                height = 440,
                 radius = Math.min(width, height) / 2;
 
             d3.select("#donutChart").selectAll("*").remove();
@@ -649,6 +805,7 @@ d3.json("/get_banks_data", function (banksData) { // Load the state data from Fl
                 .append("svg")
                 .attr("width", width)
                 .attr("height", height)
+                .style("background-color", "#172144")
                 .append("g")
                 .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
@@ -676,7 +833,7 @@ d3.json("/get_banks_data", function (banksData) { // Load the state data from Fl
                 .attr("class", "tooltip-value")
                 .attr("text-anchor", "middle")
                 .attr("font-size", "16px")
-                .attr("fill", "#E65100")
+                .attr("fill", "#df0892")
                 .attr("font-weight", "bold")
                 .text("ALL BANKS");
             tooltip.append("tspan")
@@ -714,7 +871,7 @@ d3.json("/get_banks_data", function (banksData) { // Load the state data from Fl
                         .attr("class", "tooltip-value")
                         .attr("text-anchor", "middle")
                         .attr("font-size", "16px")
-                        .attr("fill", "#E65100")
+                        .attr("fill", function (d) { return color(bankName); })
                         .attr("font-weight", "bold")
                         .text(bankName);
                     tooltip.append("tspan")
@@ -741,7 +898,7 @@ d3.json("/get_banks_data", function (banksData) { // Load the state data from Fl
                         .attr("class", "tooltip-value")
                         .attr("text-anchor", "middle")
                         .attr("font-size", "16px")
-                        .attr("fill", "#E65100")
+                        .attr("fill", "#df0892")
                         .attr("font-weight", "bold")
                         .text("ALL BANKS");
                     tooltip.append("tspan")
@@ -764,6 +921,149 @@ d3.json("/get_banks_data", function (banksData) { // Load the state data from Fl
                 });
 
         }
+
+        function updateBubbleChart() {
+
+            var colorScale = d3.scale.category10();
+
+            // Filter the data to get the sum of value for each region
+            // var regionData = d3.nest()
+            //     .key(function (d) { return d.Region; })
+            //     .rollup(function (v) { return d3.sum(v, function (d) { return d.Value; }); })
+            //     .entries(banksData);
+
+            var regionData = d3.nest()
+                .key(function (d) { return d["Region"]; })
+                .rollup(function (v) {
+                    if (clickedState === "All States" && selectedStates.length === 0) {
+                        var filteredData = v.filter(function (d) {
+                            quarterPopulation = d["Quarter : Population Group"]
+                            var yearString = quarterPopulation.split(" ")[1];
+                            return yearString === sliderYear;
+                        });
+
+                        return d3.sum(filteredData, function (d) { return d["Value"]; });
+                    }
+                    else {
+                        var filteredData = v.filter(function (d) {
+                            quarterPopulation = d["Quarter : Population Group"]
+                            var yearString = quarterPopulation.split(" ")[1];
+                            return (yearString === sliderYear) && selectedStates.includes(d["State"]);
+                        });
+
+                        return d3.sum(filteredData, function (d) { return d["Value"]; });
+                    }
+                })
+                .entries(banksData);
+
+            selectedRegions = [];
+            for (var i = 0; i < regionData.length; i++) {
+                if (regionData[i].values !== 0) {
+                    selectedRegions.push(regionData[i].key);
+                }
+            }
+
+
+
+            // Set the dimensions and margins of the chart
+            var margin = { top: 20, right: 20, bottom: 30, left: 40 },
+                width = 360 - margin.left - margin.right,
+                height = 420 - margin.top - margin.bottom;
+
+            // Remove any existing chart elements
+            d3.select("#bubbleChart").selectAll("*").remove();
+
+            // Create the SVG element
+            var svg = d3.select("#bubbleChart")
+                .append("svg")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom)
+                .style("background-color", "#172144")
+                .append("g")
+                .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+            // Create the simulation with collision detection
+            var simulation = d3.layout.force()
+                .nodes(regionData)
+                .charge(-400)
+                .gravity(0.1)
+                .size([width, height])
+                .on("tick", tick);
+
+            // Define a linear scale for the bubble sizes
+            var sizeScale = d3.scale.linear()
+                .domain([0, d3.max(regionData, function (d) { return d.values; })])
+                .range([15, 85]);
+
+            // Create the bubbles
+            var bubbles = svg.selectAll(".bubble")
+                .data(regionData)
+                .enter().append("circle")
+                .attr("class", "bubble")
+                .attr("r", function (d) { return sizeScale(d.values); })
+                .style("fill", function (d) { return colorScale(d.key); })
+                .call(simulation.drag);
+
+            bubbles
+                .append("title")
+                .text(function (d) {
+                    var val = d.values;
+                    return "No. of Bank Offices : " + val;
+                });
+
+            bubbles.on("click", handleBubbleClick);
+
+            function handleBubbleClick(d) {
+                selectedStates = []; // initialize an empty array
+                switch (d.key) {
+                    case "Central Region":
+                        selectedStates = ["Chhattisgarh", "Madhya Pradesh", "Uttarakhand", "Uttar Pradesh"];
+                        break;
+                    case "Eastern Region":
+                        selectedStates = ["Andaman & Nicobar Islands", "Bihar", "Jharkhand", "Odisha", "Sikkim", "West Bengal"];
+                        break;
+                    case "North Eastern Region":
+                        selectedStates = ["Arunachal Pradesh", "Assam", "Manipur", "Meghalaya", "Mizoram", "Nagaland", "Tripura"];
+                        break;
+                    case "Northern Region":
+                        selectedStates = ["Chandigarh", "Haryana", "Himachal Pradesh", "Jammu & Kashmir", "Ladakh", "Nct of Delhi", "Punjab", "Rajasthan"];
+                        break;
+                    case "Southern Region":
+                        selectedStates = ["Andhra Pradesh", "Karnataka", "Kerala", "Lakshadweep", "Puducherry", "Tamil Nadu", "Telangana"];
+                        break;
+                    case "Western Region":
+                        selectedStates = ["Dadra And Nagar Haveli And Daman And Diu", "Goa", "Gujarat", "Maharashtra"];
+                        break;
+                    default:
+                        break;
+                }
+
+                updateDashboard();
+            }
+
+
+            // Add labels to the bubbles
+            var labels = svg.selectAll(".label")
+                .data(regionData)
+                .enter().append("text")
+                .attr("class", "label")
+                .attr("text-anchor", "middle")
+                .text(function (d) { return d.key; });
+
+            // Update the simulation on each tick
+            function tick(e) {
+                bubbles
+                    .attr("cx", function (d) { return d.x; })
+                    .attr("cy", function (d) { return d.y; });
+                labels
+                    .attr("x", function (d) { return d.x; })
+                    .attr("y", function (d) { return d.y + 5; });
+            }
+
+            // Start the simulation
+            simulation.start();
+        }
+
 
 
         function updateDashboard() {
@@ -789,9 +1089,18 @@ d3.json("/get_banks_data", function (banksData) { // Load the state data from Fl
 
             updateTreeMap();
 
+            updateDonutChart();
+
+            updateBubbleChart();
+
+            var index = selectedStates.indexOf("Dadra And Nagar Haveli And Daman And Diu");
+            if (index !== -1) {
+                selectedStates.splice(index, 1);
+            }
+
             updateDetailsBox();
 
-            updateDonutChart();
+
         }
 
         updateSlider(selectedDate);

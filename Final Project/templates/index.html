@@ -24,7 +24,8 @@
 <body>
   <div class="header">
     <button id="playButton" >PLAY</button>
-    <h1>NUMBER OF COMMERCIAL BANK OFFICES IN INDIA</h1>
+    <h1>INDIAN COMMERCIAL BANKING LANDSCAPE: A VISUAL EXPLORATION</h1>
+    <h4>Mapping the Network of Commercial Bank Offices in India from 2006 to 2022</h4>
     <button class="reset-button" onclick="location.reload();">RESET</button>
   </div>
   <section>
@@ -33,25 +34,28 @@
   <section id="charts1">
     <table>
       <tr>
-        <td colspan="2">
-          <div id="barchart"></div>
+        <td rowspan="2">
+          <div id="details-box"></div>
         </td>
-        
         <td rowspan="2">
           <div id="indiachart"></div>
         </td>
-        <td>
+        <td colspan="1">
+          <div id="barchart"></div>
+        </td>
+        <td colspan="1">
           <div id="donutChart"></div>
         </td>
       </tr>
       <tr>
-        <td>
+        <td colspan="1">
           <div id="treemapChart"></div>
         </td>
-        <td>
-          <div id="details-box"></div>
-          
+        <td colspan="1">
+          <div id="bubbleChart"></div>
         </td>
+
+
       </tr>
       
     </table>
