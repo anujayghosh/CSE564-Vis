@@ -10,7 +10,7 @@
 }
 
 .d3slider-rect-value {
-  fill: #E65100;
+  fill: #df0892;
   stroke: none;
 }
 
@@ -57,7 +57,7 @@
 }
 
 .dragger line {
-  stroke: #aa0000;
+  stroke: #df0892;
   fill: none;
 }
 
@@ -67,7 +67,7 @@
 }
 
 .dragger-inner {
-  fill: #B30424;
+  fill: #1e1474;
   stroke: none;
 }
 

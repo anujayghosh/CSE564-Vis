@@ -110,44 +110,50 @@ svg text {
 
 .reset-button {
   position: fixed;
-  top: 20px;
-  right: 20px;
-  background-color: #E65100;
+  top: 32px;
+  right: 32px;
+  background-color: #1e1474;
   /* border: 2px solid #c3c3c3; */
   color: #fff;
   font-size: 16px;
+  font-weight: bold;
   padding: 5px 20px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
   transition-duration: 0.4s;
   cursor: pointer;
+  border-radius: 20px; /* change the value to adjust the amount of rounding */
+  border: 2px solid #1e1474; /* add a border to the SVG to enable border-radius */
 }
 
 .reset-button:hover {
-  background-color: #000d58;
+  background-color: #75064e;
   color: #fff;
 }
 
 
 #playButton {
   position: fixed;
-  top: 20px;
-  left: 20px;
-  background-color: #E65100;
+  top: 32px;
+  left: 32px;
+  background-color: #df0892;
   /* border: 2px solid #c3c3c3; */
   color: #fff;
   font-size: 16px;
+  font-weight: bold;
   padding: 5px 20px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
   transition-duration: 0.4s;
   cursor: pointer;
+  border-radius: 20px; /* change the value to adjust the amount of rounding */
+  border: 2px solid #df0892; /* add a border to the SVG to enable border-radius */
 }
 
 #playButton:hover {
-  background-color: #000d58;
+  background-color: #120c47;
   color: #fff;
 }
 

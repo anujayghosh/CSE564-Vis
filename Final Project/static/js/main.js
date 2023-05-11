@@ -138,6 +138,21 @@ d3.json("/get_banks_data", function (banksData) { // Load the state data from Fl
                 .style('stroke', '#df0892')
                 .style('stroke-width', '0.2');
 
+            // Add title to the chart
+            svg.append("text")
+                .attr("x", (w / 2))
+                .attr("y", 0 - (20 / 2) + 45)
+                .attr("text-anchor", "middle")
+                .style("font-size", "18px")
+                .attr("font-weight", "bold")
+                .text("MAP OF INDIA ");
+
+            // var title = svg.append("text")
+            //     .attr("x", (width / 2))
+            //     .attr("y", 0 - (margin.top / 2) + 25)
+            //     .attr("text-anchor", "middle")
+            //     .style("font-size", "20px");
+
 
 
             // Update the map using the selected date
@@ -181,6 +196,7 @@ d3.json("/get_banks_data", function (banksData) { // Load the state data from Fl
                     var stateName = d.id;
                     return "State : " + stateName + "\n No. of Bank Offices : " + stateSum[stateName];
                 });
+
 
             function handleClick(d) {
                 var stateName = d.id;
@@ -328,23 +344,24 @@ d3.json("/get_banks_data", function (banksData) { // Load the state data from Fl
                 .attr("x", (width / 2))
                 .attr("y", 0 - (margin.top / 2))
                 .attr("text-anchor", "middle")
-                .style("font-size", "20px")
-                .text("Number of Bank Offices by Year in ");
+                .style("font-size", "18px")
+                .attr("font-weight", "bold")
+                .text("NUMBER OF BANK OFFICES BY YEAR IN ");
 
             var title = svg.append("text")
                 .attr("x", (width / 2))
                 .attr("y", 0 - (margin.top / 2) + 25)
                 .attr("text-anchor", "middle")
-                .style("font-size", "20px");
+                .style("font-size", "18px");
 
             // Create a string of the selected states for the title
-            var stateString = "All States";
+            var stateString = "ALL STATES";
             if (selectedStates.length > 1) {
-                stateString = "Selected States";
+                stateString = "SELECTED STATES";
             } else if (selectedStates.length === 1) {
                 stateString = selectedStates[0] + " State";
             } else {
-                stateString = "All States";
+                stateString = "ALL STATES";
             }
 
 
@@ -467,8 +484,11 @@ d3.json("/get_banks_data", function (banksData) { // Load the state data from Fl
             d3.select("#treemapChart").selectAll("*").remove();
 
             // Define the size of the chart
-            var width = 560;
-            var height = 420;
+            // var width = 560;
+            // var height = 420;
+            var margin = {top: 30, right: 0, bottom: 0, left: 0};
+var width = 560 - margin.left - margin.right;
+var height = 420 - margin.top - margin.bottom;
 
             // Define the color scale for the chart
             var color = d3.scale.ordinal()
@@ -538,9 +558,17 @@ d3.json("/get_banks_data", function (banksData) { // Load the state data from Fl
             // Define the SVG container for the chart
             var svg2 = d3.select("#treemapChart")
                 .append("svg")
-                .attr("width", width)
-                .attr("height", height)
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom)
                 .style("background-color", "#172144");
+
+                svg2.append("text")
+                .attr("x", (width / 2) )
+                .attr("y", 0 - (margin.top / 2) +440 -15)
+                .attr("text-anchor", "middle")
+                .style("font-size", "18px")
+                .attr("font-weight", "bold")
+                .text("POPULATION GROUP-WISE TREEMAP");
 
             // Compute the treemap layout
             var nodes = treemap.nodes(root);
@@ -667,7 +695,7 @@ d3.json("/get_banks_data", function (banksData) { // Load the state data from Fl
 
             // Add text for sliderYear to the box group
             boxGroup.append("text")
-                .text("Year : ")
+                .text("YEAR : ")
                 .attr("x", width / 2)
                 .attr("y", height / 2 - 250)
                 .attr("text-anchor", "middle")
@@ -693,7 +721,7 @@ d3.json("/get_banks_data", function (banksData) { // Load the state data from Fl
 
             if (selectedRegions.length < 6) {
                 boxGroup.append("text")
-                    .text("Selected Region/s : ")
+                    .text("SELECTED REGION/S : ")
                     .attr("x", width / 2)
                     .attr("y", height / 2 - 150)
                     .attr("text-anchor", "middle")
@@ -710,7 +738,7 @@ d3.json("/get_banks_data", function (banksData) { // Load the state data from Fl
                     .text(function (d) { return d; });
             } else {
                 boxGroup.append("text")
-                    .text("Selected Region/s : ")
+                    .text("SELECTED REGION/S : ")
                     .attr("x", width / 2)
                     .attr("y", height / 2 - 150)
                     .attr("text-anchor", "middle")
@@ -729,7 +757,7 @@ d3.json("/get_banks_data", function (banksData) { // Load the state data from Fl
             if (selectedStates.length !== 0) {
                 // Add text for clickedState to the box group
                 boxGroup.append("text")
-                    .text("Selected State/s : ")
+                    .text("SELECTED STATE/S : ")
                     .attr("x", width / 2)
                     .attr("y", height / 2 + 100)
                     .attr("text-anchor", "middle")
@@ -746,7 +774,7 @@ d3.json("/get_banks_data", function (banksData) { // Load the state data from Fl
                     .text(function (d) { return d; });
             } else {
                 boxGroup.append("text")
-                    .text("Selected State/s : ")
+                    .text("SELECTED STATE/S : ")
                     .attr("x", width / 2)
                     .attr("y", height / 2 + 100)
                     .attr("text-anchor", "middle")
@@ -808,6 +836,15 @@ d3.json("/get_banks_data", function (banksData) { // Load the state data from Fl
                 .style("background-color", "#172144")
                 .append("g")
                 .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+
+            // Add title to the chart
+            svg.append("text")
+                .attr("x", (width / 2) - 180)
+                .attr("y", 0 - (20 / 2) - 290 +130)
+                .attr("text-anchor", "middle")
+                .style("font-size", "18px")
+                .attr("font-weight", "bold")
+                .text("BANK-WISE PIE CHART");
 
             // Define the donut layout
             var donut = d3.layout.pie()
@@ -982,6 +1019,16 @@ d3.json("/get_banks_data", function (banksData) { // Load the state data from Fl
                 .append("g")
                 .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+                svg.append("text")
+                .attr("x", (width / 2) )
+                .attr("y", 0 - (20 / 2) +30)
+                .attr("text-anchor", "middle")
+                .style("font-size", "18px")
+                .attr("font-weight", "bold")
+                .text("REGION-WISE BUBBLE CHART");
+                // 150,30
+                //  -30, -170
+
             // Create the simulation with collision detection
             var simulation = d3.layout.force()
                 .nodes(regionData)
@@ -1054,10 +1101,10 @@ d3.json("/get_banks_data", function (banksData) { // Load the state data from Fl
             function tick(e) {
                 bubbles
                     .attr("cx", function (d) { return d.x; })
-                    .attr("cy", function (d) { return d.y; });
+                    .attr("cy", function (d) { return d.y+15; });
                 labels
                     .attr("x", function (d) { return d.x; })
-                    .attr("y", function (d) { return d.y + 5; });
+                    .attr("y", function (d) { return d.y + 20; });
             }
 
             // Start the simulation
@@ -1069,9 +1116,9 @@ d3.json("/get_banks_data", function (banksData) { // Load the state data from Fl
         function updateDashboard() {
             selectedDate = new Date(slider.value());
             var quarterEnd = new Date(selectedDate.getFullYear(), Math.floor(selectedDate.getMonth() / 3) * 3 + 3, 0);
-            console.log("Quarter end" + quarterEnd);
+            // console.log("Quarter end" + quarterEnd);
             selectedDate = quarterEnd;
-            console.log("Selected Dae:" + selectedDate);
+            // console.log("Selected Dae:" + selectedDate);
 
             var isoString = selectedDate.toISOString(); // convert to ISO string
             var year = isoString.substring(0, 4); // extract year
