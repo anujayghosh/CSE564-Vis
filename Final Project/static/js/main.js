@@ -376,7 +376,7 @@ d3.json("/get_banks_data", function (banksData) { // Load the state data from Fl
             // Process the data and create the chart
             var yearSum = {};
             banksData.forEach(function (d) {
-                if (clickedState === "All States") {
+                if (clickedState === "All States" && selectedStates.length === 0) {
                     quarterPopulation = d["Quarter : Population Group"]
                     var yearString = quarterPopulation.split(" ")[1];
                     var year = parseInt(yearString);
@@ -807,7 +807,7 @@ var height = 420 - margin.top - margin.bottom;
             var data = d3.nest()
                 .key(function (d) { return d["Bank"]; })
                 .rollup(function (v) {
-                    if (clickedState === "All States") {
+                    if (clickedState === "All States" && selectedStates.length === 0) {
                         var filteredData = v.filter(function (d) {
                             quarterPopulation = d["Quarter : Population Group"]
                             var yearString = quarterPopulation.split(" ")[1];
