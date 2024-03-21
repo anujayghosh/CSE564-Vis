@@ -6,8 +6,10 @@
   <br> 
   Submitted Assignment Solutions and Final Project
     <br> 
-  [Demo Video Link](https://www.youtube.com/watch?v=OKoAnPsDcaU) - YouTube
+<!--   [Demo Video Link](https://www.youtube.com/watch?v=OKoAnPsDcaU) - YouTube -->
 </p>
+
+## Final Project Demo:   [Demo Video Link](https://www.youtube.com/watch?v=OKoAnPsDcaU) - YouTube
 
 ## 📝 Table of Contents
 - [About](#about)
